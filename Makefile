@@ -1,5 +1,5 @@
 CXX = gcc
-CXXFLAGS = -Wall -Iinclude
+CXXFLAGS = -Wall -Iinclude -lraylib
 SRCDIR = src
 OBJDIR = build
 TARGET = bmpRead.o
