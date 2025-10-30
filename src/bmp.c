@@ -5,8 +5,9 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
-void readFile(FILE * file, BM_IMAGE * imgData){
+int readFile(FILE * file, BM_IMAGE * imgData){
 	BM_HEADER bmHeader;
     uint32_t headerSize; //Size of the info header
 
@@ -40,7 +41,7 @@ void readFile(FILE * file, BM_IMAGE * imgData){
         BM_PIXEL_24* pixels = (BM_PIXEL_24*)malloc(rowSize * bmInfoHeader.height);
 
         for(int i = 0; i < bmInfoHeader.height; i++){
-            BM_PIXEL_24 pixelRow[(bmInfoHeader.width + 31) / 32 * 4];
+            BM_PIXEL_24 pixelRow[imgData->infoHeader.width];
 
             fread(&pixelRow, rowSize, 1, file);
             // Process pixelRow
@@ -48,5 +49,7 @@ void readFile(FILE * file, BM_IMAGE * imgData){
         }
         imgData->infoHeader = bmInfoHeader;
         imgData->pixels = pixels;
+
+		return 1;
 	}
 }

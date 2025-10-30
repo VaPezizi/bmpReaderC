@@ -42,7 +42,7 @@ int main(int argc, char *argv[]){
 		return -1;
 	}
 	BM_IMAGE imgData;
-	BM_PIXEL_24 * pixels = readFile(f);
+	readFile(f, &imgData);
 
 	fclose(f);
 
@@ -51,8 +51,23 @@ int main(int argc, char *argv[]){
 	ClearBackground(RAYWHITE);
 
 
+	printf("Bitcount: %d\n", imgData.infoHeader.bitCount);
 
-	Image img = LoadImageFromMemory(".bmp", (const unsigned char*)pixels, sizeof(BM_PIXEL_24) * 800 * 600);
+	Image img = LoadImageFromMemory(".bmp", (const unsigned char*)imgData.pixels, sizeof(imgData.infoHeader.bitCount));
+
+	Texture2D texture = LoadTextureFromImage(img);
+
+	while (!WindowShouldClose()){
+		BeginDrawing();
+		ClearBackground(RAYWHITE);
+
+		DrawTexture(texture, 0, 0, WHITE);
+
+		EndDrawing();
+	}
+	UnloadTexture(texture);
+	UnloadImage(img);
+	CloseWindow();
 
 	//printf("Signature: 0x%X\n", bmHeader.signature);
 	//printf("Signature: %c%c\n", bmHeader.signature, bmHeader.signature >> 8);
