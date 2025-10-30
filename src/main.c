@@ -53,20 +53,19 @@ int main(int argc, char *argv[]){
 
 	printf("Bitcount: %d\n", imgData.infoHeader.bitCount);
 
-	Image img = LoadImageFromMemory(".bmp", (const unsigned char*)imgData.pixels, sizeof(imgData.infoHeader.bitCount));
-
-	Texture2D texture = LoadTextureFromImage(img);
+	RenderTexture texture = DrawBMPToTexture(&imgData);
 
 	while (!WindowShouldClose()){
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
-		DrawTexture(texture, 0, 0, WHITE);
+		DrawTexture(texture.texture, 0, 0, WHITE);
 
 		EndDrawing();
 	}
-	UnloadTexture(texture);
-	UnloadImage(img);
+	UnloadRenderTexture(texture);
+	//printNPixels(&imgData, 34000);
+	freeImage(&imgData);
 	CloseWindow();
 
 	//printf("Signature: 0x%X\n", bmHeader.signature);
@@ -75,3 +74,4 @@ int main(int argc, char *argv[]){
 	//printf("Header size: %d\n", headerSize);	
 	return 0;
 }
+

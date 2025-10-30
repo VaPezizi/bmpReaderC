@@ -1,5 +1,6 @@
 #include <inttypes.h>
 #include <stdio.h>
+#include <raylib.h>
 
 //http://www.ue.eti.pg.gda.pl/fpgalab/zadania.spartan3/zad_vga_struktura_pliku_bmp_en.html
 #pragma pack(1)
@@ -44,3 +45,6 @@ typedef struct{
 void printInfoHeader(BM_INFO_HEADER* infoHeader);
 void printHeader(BM_HEADER* header);
 int readFile(FILE * file, BM_IMAGE * imgData);        //The file is not closed inside this function, it's the users responsibility 
+int freeImage(BM_IMAGE* imgData);
+void printNPixels(BM_IMAGE* imgData, int n);
+RenderTexture DrawBMPToTexture(BM_IMAGE* imgData);
