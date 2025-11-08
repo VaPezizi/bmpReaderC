@@ -44,10 +44,10 @@ int readFile(FILE * file, BM_IMAGE * imgData){
 
         for(int i = 0; i < bmInfoHeader.height; i++){
             BM_PIXEL_24 pixelRow[bmInfoHeader.width + 1]; // +1 for possible padding
-			printf("PixelRow size: %zu\n", sizeof(pixelRow));
+			//printf("PixelRow size: %zu\n", sizeof(pixelRow));
 
             fread(&pixelRow, rowSize, 1, file);
-			printf("Row size: %zu\n", rowSize);
+			//printf("Row size: %zu\n", rowSize);
             // Process pixelRow
             memcpy(&pixels[i * bmInfoHeader.width], &pixelRow, sizeof(BM_PIXEL_24) * bmInfoHeader.width);
         }
@@ -77,7 +77,21 @@ void printNPixels(BM_IMAGE* imgData, int n){
 	}
 }
 
+void convertToRGBPixels(BM_IMAGE* imgData){
+	int totalPixels = imgData->infoHeader.width * imgData->infoHeader.height;
+	for(int i = 0; i < totalPixels; i++){
+		uint8_t red = imgData->pixels[i].red;
+		imgData->pixels[i] = (BM_PIXEL_24){
+			.red = imgData->pixels[i].blue,
+			.green = imgData->pixels[i].green,
+			.blue = red 
+		};
+	}
+}
+
 RenderTexture DrawBMPToTexture(BM_IMAGE* imgData){
+	convertToRGBPixels(imgData);
+	//convertToRGBPixels(imgData); 
 	int width = imgData->infoHeader.width;
 	int height = imgData->infoHeader.height;
 

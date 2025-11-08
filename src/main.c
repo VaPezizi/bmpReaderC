@@ -45,9 +45,11 @@ int main(int argc, char *argv[]){
 	readFile(f, &imgData);
 
 	fclose(f);
+	printHeader(&imgData.header);
+	printInfoHeader(&imgData.infoHeader);
 
 	//Raylib setup
-	InitWindow(800, 600, "BMP Viewer");
+	InitWindow(imgData.infoHeader.width, imgData.infoHeader.height, "BMP Viewer");
 	ClearBackground(RAYWHITE);
 
 

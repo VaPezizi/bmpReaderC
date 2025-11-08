@@ -1,2 +1,6 @@
 build/
 *.o
+*.plist
+compile_commands.json
+.cache
+*.bmp
